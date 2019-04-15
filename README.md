@@ -53,7 +53,7 @@ Dagger knows to create HiDecorator(using the primary constructor) and it depends
 ```kotlin
 class HiDecorator @Inject constructor(val info: Info)
 ```
-Dagger knows to create Info (using the primary constructor) and it doesnot any dependency to be be created as the constructor receives no arg.
+Dagger knows to create **Info** instance(using the primary constructor) but it does not have any dependency to be created as the constructor receives no arg.
 ```kotlin
 class Info @Inject constructor(){
     val text ="Dummy text"
@@ -62,6 +62,7 @@ class Info @Inject constructor(){
 So the object dependency graph( directed acyclic graph) is We can create **MainClass**<-if we have **HiDecorator**<-we can create **HiDecorator**<-if we have **Info**. And it is straight forward to create Info. Dagger's job is simple now to create **MainClass** instance.
 
 **MainClass**<--**HiDecorator**<--**Info**
+
 Now because we are using Daggger2 framework much of the boiler plate is automatically generated just with two types of annotations (namely **@Inject** and **@Component**) in the right places. You may check out the generated classes in the **build\generated\source\kapt\main** sub path from your project dir in the project explorer.
 
 ##### Now lets become a villain to Dagger, and complicate this situation by introducing two changes, which will make it impossible for Dagger to figure out how to create the HiDecorator and Info classes on its own:
