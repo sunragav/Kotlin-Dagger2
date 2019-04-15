@@ -66,8 +66,8 @@ Now because we are using Daggger2 framework much of the boiler plate is automati
 
 ##### Now lets become a villain to Dagger, and complicate this situation by introducing two changes, which will make it impossible for Dagger to figure out how to create the HiDecorator and Info classes on its own:
 ###### First lets change the Info class like this:
-```
-kotlinclass Info @Inject constructor(val text: String)
+```kotlin
+class Info @Inject constructor(val text: String)
 ```
 Hi silly dagger!!, can you figure our how to create the Info instance now?
 We say here how to create Info , i.e., using the primary constructor but we also leave a missing piece('text') as a dependecy.
@@ -111,11 +111,11 @@ Now we can annotate our **getStr1** and **getStr2** methods with these contexts 
 Now still the dagger is confused on which method to use to inject string to the Info objects constructor.
 We once again pull our sleeves to help Dagger, and provide one more method to satisfy the Info instance dependecy and tell,
 ###### Hi Dagger Dost, use the following method whenever you need to create an Info instance:
-
+```kotlin
 @Provides
  @JvmStatic
  fun getInfo1(@InfoStr1 str: String): Info = Info(str)
-
+```
 Here in the method arg we are injecting the string value with **@InfoStr1** annotation. So it knows where to get that value from(by calling the **getStr1()** method).
 
 
@@ -189,20 +189,20 @@ interface AppComponent {
 }
 ```
 
-As we are using @InfoStr1 to the getDecor1 function we will get the Info object created with "Kotlin" value.
+As we are using **@InfoStr1** to the getDecor1 function we will get the Info object created with "Kotlin" value.
 
-Now what is the motive behind making the HiDecorator a subclass of IDecorator.
-
+Now what is the motive behind making the **HiDecorator** a subclass of **IDecorator**.
+```kotlin
 class ByeDecorator @Inject constructor(val info: Info) : IDecorator {
     override fun decorate(): String {
         return " Bye ${info.text}!!"
     }
 }
+```
 
-
-Now again it is the same dialemma Dagger had when it had to decide between two strings earlier with out the @Qualifer annotaions.
+Now again it is the same dialemma Dagger had when it had to decide between two strings earlier with out the **@Qualifer** annotaions.
 So we help dagger decide differentiate between the the subtype instance using two different annotations.
-
+```kotlin
 @Qualifier
 @Retention(AnnotationRetention.SOURCE)
 annotation class Decorator1
@@ -210,11 +210,11 @@ annotation class Decorator1
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
 annotation class Decorator2
+```
 
+and modify the **Appmodule**
 
-and modify the Appmodule
-
-
+```kotlin
 @Module
 object AppModule {
     @Provides
@@ -232,7 +232,7 @@ object AppModule {
     }
 
 }
-
+```
 Now we have two different types of Decorators and two different annotations to qualify them.
 ```kotlin
 @Component(modules=[InfoModule::class, AppModule::class])
