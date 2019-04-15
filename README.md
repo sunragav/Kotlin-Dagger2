@@ -3,7 +3,7 @@ In Dagger2, we use @Inject annotations to specify two things.
 and
 2. what are its dependencies
 
-#####Eg:
+##### Eg:
 Here we say how to create **HiDecorator**, i.e. using the primary constructor and it depends on an Info object to be passed.
 ```kotlin
 class HiDecorator @Inject constructor(val info: Info)
@@ -43,11 +43,11 @@ fun main() {
    MainClass().present()
 }
 ```
-####You can download the code from:
+#### You can download the code from:
 https://github.com/sunragav/simple-dagger to import this project in IntelliJ and try it out on your own.
 
 So in the above code, Dagger clearly knows how to create the Factory class (aka. **DaggerAppComponent** class in the example above) and knows how to implement the **getHiDecorator()** method that returns the HiDecorator instance(dependency).
-####In detail:
+#### In detail:
 Dagger knows to create HiDecorator(using the primary constructor) and it depends on Info instance from the below declaration
 
 ```kotlin
@@ -64,8 +64,8 @@ So the object dependency graph( directed acyclic graph) is We can create **MainC
 **MainClass**<--**HiDecorator**<--**Info**
 Now because we are using Daggger2 framework much of the boiler plate is automatically generated just with two types of annotations (namely **@Inject** and **@Component**) in the right places. You may check out the generated classes in the **build\generated\source\kapt\main** sub path from your project dir in the project explorer.
 
-#####Now lets become a villain to Dagger, and complicate this situation by introducing two changes, which will make it impossible for Dagger to figure out how to create the HiDecorator and Info classes on its own:
-######First lets change the Info class like this:
+##### Now lets become a villain to Dagger, and complicate this situation by introducing two changes, which will make it impossible for Dagger to figure out how to create the HiDecorator and Info classes on its own:
+###### First lets change the Info class like this:
 ```
 kotlinclass Info @Inject constructor(val text: String)
 ```
@@ -110,7 +110,7 @@ annotation class InfoStr2
 Now we can annotate our **getStr1** and **getStr2** methods with these contexts to make that value mean different things though they return the same types.
 Now still the dagger is confused on which method to use to inject string to the Info objects constructor.
 We once again pull our sleeves to help Dagger, and provide one more method to satisfy the Info instance dependecy and tell,
-######Hi Dagger Dost, use the following method whenever you need to create an Info instance:
+###### Hi Dagger Dost, use the following method whenever you need to create an Info instance:
 
 @Provides
  @JvmStatic
@@ -251,7 +251,7 @@ For field injection we have to do 3 steps:
 so the field in the **MainClass** becomes
 2. Add **@Inject** annotation to that field
 3. Add a funtion in the **@Component** class which accepts the **MainClass**( the class which has the field to be inject)
-    ######eg.
+    ###### eg.
     ```kotlin
 	@Component(modules = [AppModule::class, InfoModule::class])
 	interface AppComponent {
