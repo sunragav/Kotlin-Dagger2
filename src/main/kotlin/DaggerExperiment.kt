@@ -17,7 +17,7 @@ annotation class InfoStr2
 annotation class Decorator1
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention(AnnotationRetention.SOURCE)
 annotation class Decorator2
 
 

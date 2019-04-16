@@ -215,7 +215,7 @@ So we help dagger  differentiate between the the subtype instances using two dif
 annotation class Decorator1
 
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention(AnnotationRetention.SOURCE)
 annotation class Decorator2
 ```
 
