@@ -254,9 +254,16 @@ With these changes the dependecy object graph will be complete.
 
 But instead of directly using the **getHiDecorator()** function or **getByeDecorator()** function to populate the decorator member, we can use field injection.
 > For field injection we have to do 3 steps:
-1. The field should not be private or protected and it cannot be **val** and it must be declared as **lateinit**
-so the field in the **MainClass** becomes
-2. Add **@Inject** annotation to that field
+1. The field should not be private or protected and it cannot be **val** and it must be declared as **lateinit var**
+so the field can be still non-null and injected later. So in the **MainClass** the field declaration becomes
+	```kotlin
+    lateinit var hiDecorator: IDecorator
+    ```
+2. Add **@Inject** annotation to that field with the appropriate **@Qualifier**
+	```kotlin
+	@Inject
+    @field:Decorator1
+    ```
 3. Add a funtion in the **@Component** class which accepts the **MainClass**( the class which has the field to be inject)
     ```kotlin
 	@Component(modules = [AppModule::class, InfoModule::class])
