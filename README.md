@@ -47,8 +47,8 @@ fun main() {
 https://github.com/sunragav/simple-dagger to import this project in IntelliJ and try it out on your own.
 
 So in the above code, Dagger clearly knows how to create the Factory class (aka. **DaggerAppComponent** class in the example above) and knows how to implement the **getHiDecorator()** method that returns the **HiDecorator** instance(dependency).
-### In detail:
-Dagger knows to create HiDecorator(using the primary constructor) and it depends on Info instance from the below declaration
+## In detail:
+Dagger knows to create **HiDecorator**(using the primary constructor) and it depends on **Info** instance from the declaration mentioned below
 
 ```kotlin
 class HiDecorator @Inject constructor(val info: Info)
@@ -66,7 +66,7 @@ So the object dependency graph( directed acyclic graph) is We can create **MainC
 Now because we are using Daggger2 framework much of the boilerplate is automatically generated just with two types of annotations (namely **@Inject** and **@Component**) in the right places. You may check out the generated classes in the **build\generated\source\kapt\main** sub path from your project dir in the project explorer.
 
 ## Now lets become a villain to Dagger, and complicate this situation by introducing two changes, which will make it impossible for Dagger to figure out how to create the HiDecorator and Info classes on its own:
-##### 1. First lets change the Info class like this:
+### 1. First lets change the Info class like this:
 ```kotlin
 class Info @Inject constructor(val text: String)
 ```
