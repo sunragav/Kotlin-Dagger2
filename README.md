@@ -174,7 +174,7 @@ interface AppComponent {
 ```
 
 I make fun of Dagger now, **HiDecorator** is just a subclass that implements **IDecorator**, try to figure out how to create **HiDecorator** instance now.
-> ## Dagger knows only to create instances if it can find an exact type. So it does not how to create **IDecorator** as it is an intreface.
+> ## Dagger knows only to create instances if it can find an exact type. So it does not know how to create **IDecorator** as it is an intreface.
 
 Ofcourse, again we need to help Dagger. Lets create another Module **AppModule** and feed it to **AppComponent**.
 ```kotlin
