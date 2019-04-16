@@ -261,8 +261,9 @@ so the field can be still non-null and injected later. So in the **MainClass** t
     ```
 2. Add **@Inject** annotation to that field with the appropriate **@Qualifier**
 	```kotlin
-	@Inject
+    @Inject
     @field:Decorator1
+    lateinit var hiDecorator: IDecorator
     ```
 3. Add a funtion in the **@Component** class which accepts the **MainClass**( the class which has the field to be inject)
     ```kotlin
