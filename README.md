@@ -264,7 +264,7 @@ so the field in the **MainClass** becomes
 	    fun inject(mainClass: MainClass)
 	}
     ```
-4. Inject the instance of the **MainClass** to the Dagger generated Factory class's injection method. In our case, **DaggerAppComponent** is the class and we set the in the following way.
+4. Inject the instance of the class, where we want the injection of the filed to be made, to the Dagger generated Factory class's injection method. In our case, **DaggerAppComponent** is the factory class and we pass the **MainClass** instance to the Dagger implemented inject method in the following way.
 ```kotlin
 DaggerAppComponent.builder().build().inject(this)
 ```
