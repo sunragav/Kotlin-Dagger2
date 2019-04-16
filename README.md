@@ -4,7 +4,7 @@ and
 2. what are its dependencies
 
 ##### Eg:
-Here we say how to create **HiDecorator**, i.e. using the primary constructor and it depends on an Info object to be passed.
+Here we say how to create **HiDecorator**, i.e. using the primary constructor and it depends on an **Info** instance.
 ```kotlin
 class HiDecorator @Inject constructor(val info: Info)
 ```
@@ -46,8 +46,8 @@ fun main() {
 #### You can download the code from:
 https://github.com/sunragav/simple-dagger to import this project in IntelliJ and try it out on your own.
 
-So in the above code, Dagger clearly knows how to create the Factory class (aka. **DaggerAppComponent** class in the example above) and knows how to implement the **getHiDecorator()** method that returns the HiDecorator instance(dependency).
-#### In detail:
+So in the above code, Dagger clearly knows how to create the Factory class (aka. **DaggerAppComponent** class in the example above) and knows how to implement the **getHiDecorator()** method that returns the **HiDecorator** instance(dependency).
+### In detail:
 Dagger knows to create HiDecorator(using the primary constructor) and it depends on Info instance from the below declaration
 
 ```kotlin
@@ -59,14 +59,14 @@ class Info @Inject constructor(){
     val text ="Dummy text"
 }
 ```
-So the object dependency graph( directed acyclic graph) is We can create **MainClass**<-if we have **HiDecorator**<-we can create **HiDecorator**<-if we have **Info**. And it is straight forward to create Info. Dagger's job is simple now to create **MainClass** instance.
+So the object dependency graph( directed acyclic graph) is We can create **MainClass**, if we have **HiDecorator** instance; we can create **HiDecorator**, if we have **Info**. And it is straightforward to create an instance of **Info**. Dagger's job is simple now.
 
 **MainClass**<--**HiDecorator**<--**Info**
 
-Now because we are using Daggger2 framework much of the boiler plate is automatically generated just with two types of annotations (namely **@Inject** and **@Component**) in the right places. You may check out the generated classes in the **build\generated\source\kapt\main** sub path from your project dir in the project explorer.
+Now because we are using Daggger2 framework much of the boilerplate is automatically generated just with two types of annotations (namely **@Inject** and **@Component**) in the right places. You may check out the generated classes in the **build\generated\source\kapt\main** sub path from your project dir in the project explorer.
 
-##### Now lets become a villain to Dagger, and complicate this situation by introducing two changes, which will make it impossible for Dagger to figure out how to create the HiDecorator and Info classes on its own:
-###### First lets change the Info class like this:
+## Now lets become a villain to Dagger, and complicate this situation by introducing two changes, which will make it impossible for Dagger to figure out how to create the HiDecorator and Info classes on its own:
+##### 1. First lets change the Info class like this:
 ```kotlin
 class Info @Inject constructor(val text: String)
 ```
@@ -111,7 +111,7 @@ annotation class InfoStr2
 Now we can annotate our **getStr1** and **getStr2** methods with these contexts to make that value mean different things though they return the same types.
 Now still the dagger is confused on which method to use to inject string to the Info objects constructor.
 We once again pull our sleeves to help Dagger, and provide one more method to satisfy the Info instance dependecy and tell,
-###### Hi Dagger Dost, use the following method whenever you need to create an Info instance:
+###### Hi Dagger friend, use the following method whenever you need to create an Info instance:
 ```kotlin
 @Provides
  @JvmStatic
@@ -140,8 +140,8 @@ object InfoModule {
  }
 ```
 
-Now time to become a villain to Dagger again.
-Lets introduce an interface **IDecorator** and make the **HiDecorator** implement it.
+## Now time to become a villain to Dagger again.
+### 2. Lets introduce an interface **IDecorator** and make the **HiDecorator** implement it.
 
 ```kotlin
 interface IDecorator {
@@ -155,7 +155,7 @@ class HiDecorator @Inject constructor(val info: Info) : IDecorator {
 }
 ```
 
-Dagger laughs, "He he I still know how to create **HiDecorator** from the **AppComponent** factory class because I know how to create Info as well".
+Dagger laughs, "He he!! I still know how to create **HiDecorator** from the **AppComponent** factory class because I know how to create Info as well".
 
 I say, "Hi Dagger, dont be too smart , wait for what I am going to do next".
 
