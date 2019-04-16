@@ -114,7 +114,7 @@ annotation class InfoStr2
 ```
 Now we can annotate our **getStr1** and **getStr2** methods with these contexts to make that value mean different things though they return the same types.
 
-Now still the dagger is confused on which method to use to inject string to the Info objects constructor.
+Now still the dagger is confused on which method to use to inject a string to the Info objects constructor.
 We once again pull our sleeves to help Dagger, and provide one more method to satisfy the Info instance dependecy and tell,
 > ###### Hi Dagger friend, use the following method whenever you need to create an Info instance:
 
@@ -198,7 +198,7 @@ interface AppComponent {
 
 As we are using **@InfoStr1** to the getDecor1 function we will get the Info object created with "Kotlin" value.
 
-Now what is the motive behind making the **HiDecorator** a subclass of **IDecorator**.
+Now what is the motive behind making the **HiDecorator** a subclass of **IDecorator**. We can create a family of IDecorators by providing different implementations and take advantage of the depenedency inversion principle thoroughly.
 ```kotlin
 class ByeDecorator @Inject constructor(val info: Info) : IDecorator {
     override fun decorate(): String {
@@ -253,7 +253,7 @@ interface AppComponent {
 With these changes the dependecy object graph will be complete.
 
 But instead of directly using the **getHiDecorator()** function or **getByeDecorator()** function to populate the decorator member, we can use field injection.
-> For field injection we have to do 3 steps:
+> For field injection we have to do 4 steps:
 1. The field should not be private or protected and it cannot be **val** and it must be declared as **lateinit var**
 so the field can be still non-null and injected later. So in the **MainClass** the field declaration becomes
 	```kotlin
@@ -302,7 +302,7 @@ class MainClass {
 }
 ```
 
-> ### The completed project can downloaded from the following git repository:
+> ### The completed project can be downloaded from the following git repository:
 https://github.com/sunragav/Kotlin-Dagger2
 
 
