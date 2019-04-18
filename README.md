@@ -363,8 +363,6 @@ avoid the auto-generation using the **@JvmSuppressWildcards**.
  }
 ```
 That's it, we are all set to inject the set of **Decorators**.
-> ### Completed code can be downloaded form the following link:
-https://github.com/sunragav/kotlin-multibinding
 
 There is a similar way to inject a map of decorators too.
 The changes in the ***MainClass** and the **AppModule** follows.
@@ -426,6 +424,5 @@ object AppModule {
     fun getNamasteDec(@InfoStr3 str3: String):IDecorator = NamasteDecorator(InfoModule.getInfo(str3))
 }
 ```
-
 > ### Completed code can be downloaded form the following link:
-https://github.com/sunragav/kotlin-multibinding/tree/kotlin-dagger2-intomap
+https://github.com/sunragav/kotlin-multibinding
