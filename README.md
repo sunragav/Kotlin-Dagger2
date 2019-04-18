@@ -305,6 +305,63 @@ class MainClass {
 > ### The completed project can be downloaded from the following git repository:
 https://github.com/sunragav/Kotlin-Dagger2
 
+## Now time for multi-binding more decorators
+By now, we have understood the drill. 
+If we have to add one more decorator type, say **NamasteDecorator** to our **IDecorator** family and use it our 
+**MainClass**, we might want to create one more **@Qualifier** and then inject the same in the **MainClass** just like 
+we did for the other decorators. 
 
+But that is not fun. What if we can inject a set of decorators at once?
+Yes, Dagger allows this by using **@ElementsIntoSet** annotation.
+Lets first create the **NamasteDecorator** in the following way:
+```kotlin
+class NamasteDecorator @Inject constructor(val info: Info) : IDecorator {
+    override fun decorate(): String {
+        return " Namaste ${info.text}!!"
+    }
+}
+```
+Lets get rid of all the **@Decorator** qualifiers from our code.
 
+Lets change the **MainClass** like the following to inject a set of **Decorators** all at once.
+```kotlin
+class MainClass {
 
+    @Inject
+    lateinit var decorators: Set<@JvmSuppressWildcards IDecorator>
+
+    init {
+        DaggerAppComponent.create().inject(this)
+    }
+
+    fun present(): String {
+        var a = ""
+        decorators.forEach { a = "$a ${it.decorate()}" }
+        return a
+    }
+}
+```
+Give special attention to the **JvmSuppressWildcards** annotation.
+A Quote from Kotlin Reference doc:
+> ## To make Kotlin APIs work in Java we generate Box<Super> as  Box<? extends Super> for covariantly defined Box (or Foo<? super Bar> for contravariantly defined Foo) when it appears as a parameter.
+
+Ultimately all our kotlin code is converted to java byte-codes before execution. So to make the jvm happy, we have to
+avoid the auto-generation using the **@JvmSuppressWildcards**.
+ 
+ We will next change the **AppModule** by adding a method to return a set of different types of **IDecorators** all at once.
+ ```kotlin
+ @Module
+ object AppModule {
+     @Provides
+     @JvmStatic
+     @ElementsIntoSet
+     fun getDecor2(@InfoStr1 str1: String, @InfoStr2 str2: String, @InfoStr3 str3: String) = setOf(
+         HiDecorator(InfoModule.getInfo(str1)),
+         ByeDecorator(InfoModule.getInfo(str2)),
+         NamasteDecorator(InfoModule.getInfo(str3))
+     )
+ }
+```
+That's it, we are all set to inject the set of **Decorators**.
+> ### Completed code can be downloaded form the following link:
+https://github.com/sunragav/kotlin-multibinding
