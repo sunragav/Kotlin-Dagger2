@@ -365,3 +365,67 @@ avoid the auto-generation using the **@JvmSuppressWildcards**.
 That's it, we are all set to inject the set of **Decorators**.
 > ### Completed code can be downloaded form the following link:
 https://github.com/sunragav/kotlin-multibinding
+
+There is a similar way to inject a map of decorators too.
+The changes in the ***MainClass** and the **AppModule** follows.
+```kotlin
+
+class MainClass {
+
+    @Inject
+    lateinit var decorators: Set<@JvmSuppressWildcards IDecorator>
+
+    @Inject
+    lateinit var decoratorsMap: Map<String, @JvmSuppressWildcards IDecorator>
+
+    init {
+        DaggerAppComponent.create().inject(this)
+    }
+
+    fun present(): String {
+        var a = ""
+        decorators.forEach { a = "$a${it.decorate()}" }
+        a+="\n"
+        decoratorsMap.forEach{a="$a ${it.key} -> ${it.value}\n"}
+        return a
+    }
+}
+```
+
+For the map we have to give a key value string in addition.
+***AppModule***
+```kotlin
+@Module
+object AppModule {
+    @Provides
+    @JvmStatic
+    @ElementsIntoSet
+    fun getDecor2(@InfoStr1 str1: String, @InfoStr2 str2: String, @InfoStr3 str3: String) = setOf(
+        HiDecorator(InfoModule.getInfo(str1)),
+        ByeDecorator(InfoModule.getInfo(str2)),
+        NamasteDecorator(InfoModule.getInfo(str3))
+    )
+
+    @Provides
+    @JvmStatic
+    @IntoMap
+    @StringKey("HiDecorator")
+    fun getHiDec(@InfoStr1 str1: String):IDecorator =
+        HiDecorator(InfoModule.getInfo(str1))
+
+    @Provides
+    @JvmStatic
+    @IntoMap
+    @StringKey("ByeDecorator")
+    fun getByeDec(@InfoStr2 str2: String):IDecorator= ByeDecorator(InfoModule.getInfo(str2))
+
+    @Provides
+    @JvmStatic
+    @IntoMap
+    @StringKey("NamasteDecorator")
+    fun getNamasteDec(@InfoStr3 str3: String):IDecorator = NamasteDecorator(InfoModule.getInfo(str3))
+}
+```
+
+> ### Completed code can be downloaded form the following link:
+https://github.com/sunragav/kotlin-multibinding/tree/kotlin-dagger2-intomap
