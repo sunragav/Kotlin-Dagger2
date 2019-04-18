@@ -35,7 +35,7 @@ class MainClass {
     lateinit var byeDecorator: IDecorator
 
     init {
-        DaggerAppComponent.builder().build().inject(this)
+        DaggerAppComponent.create().inject(this)
     }
 
     fun present(): String {
