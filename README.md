@@ -53,7 +53,7 @@ Dagger knows to create **HiDecorator**(using the primary constructor) and it dep
 ```kotlin
 class HiDecorator @Inject constructor(val info: Info)
 ```
-Dagger knows to create **Info** instance(using the primary constructor) but it does not have any dependency to be created as the constructor receives no arg.
+Dagger knows to create **Info** instance(using the primary constructor) because it does not have any dependency to be created as the constructor receives no arg.
 ```kotlin
 class Info @Inject constructor(){
     val text ="Dummy text"
