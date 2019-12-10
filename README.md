@@ -424,5 +424,5 @@ object AppModule {
     fun getNamasteDec(@InfoStr3 str3: String):IDecorator = NamasteDecorator(InfoModule.getInfo(str3))
 }
 ```
-> ### Completed code can be downloaded form the following link:
+> ### Completed code can be downloaded fr4om the following link:
 https://github.com/sunragav/kotlin-multibinding
